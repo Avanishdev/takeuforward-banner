@@ -113,8 +113,8 @@ const Slider = () => {
     fetchData();
   }, []);
 
-  console.log(bannerData, "bannerData");
-  console.log(filterBannerData, "filterBannerData");
+  // console.log(bannerData, "bannerData");
+  // console.log(filterBannerData, "filterBannerData");
 
   return (
     <Container>
