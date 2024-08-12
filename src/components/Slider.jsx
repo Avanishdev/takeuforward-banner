@@ -43,38 +43,38 @@ const Wrapper = styled.div`
 const Slider = () => {
   const [bannerData, setBannerData] = useState([]);
   const [filterBannerData, setFilterBannerData] = useState([]);
-  const socketRef = useRef(null);
-  if (!socketRef.current) {
-    socketRef.current = io("http://localhost:8080");
-  }
-  const socket = socketRef.current;
-  console.log({ socket });
-  useEffect(() => {
-    // Initialize the socket connection
+  // const socketRef = useRef(null);
+  // if (!socketRef.current) {
+  //   socketRef.current = io("http://localhost:8080");
+  // }
+  // const socket = socketRef.current;
+  // console.log({ socket });
+  // useEffect(() => {
+  //   // Initialize the socket connection
 
-    socketRef.current.on("connect", () => {
-      console.log("Connected to server");
-    });
+  //   socketRef.current.on("connect", () => {
+  //     console.log("Connected to server");
+  //   });
 
-    socketRef.current.on("connect_error", (error) => {
-      console.error("Connection error:", error);
-    });
+  //   socketRef.current.on("connect_error", (error) => {
+  //     console.error("Connection error:", error);
+  //   });
 
-    socketRef.current.on("message", (data) => {
-      console.log("Message from server:", data);
-    });
+  //   socketRef.current.on("message", (data) => {
+  //     console.log("Message from server:", data);
+  //   });
 
-    socketRef.current.on("disconnect", () => {
-      console.log("Disconnected from server");
-    });
+  //   socketRef.current.on("disconnect", () => {
+  //     console.log("Disconnected from server");
+  //   });
 
-    // Cleanup on component unmount
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.disconnect();
-      }
-    };
-  }, []);
+  //   // Cleanup on component unmount
+  //   return () => {
+  //     if (socketRef.current) {
+  //       socketRef.current.disconnect();
+  //     }
+  //   };
+  // }, []);
 
   const fetchData = async () => {
     const { data } = await axios.get(
@@ -101,20 +101,20 @@ const Slider = () => {
     }
   };
 
-  // useEffect(() => {
-  //   socket.on("bannerUpdate", (data) => {
-  //     console.log("Banner update received:", data);
-  //     setBannerData(data);
-  //     visibleBannerData(data);
-  //   });
-  //   return () => {
-  //     socket.off("bannerUpdate");
-  //   };
-  //   // fetchData();
-  // }, []);
+  useEffect(() => {
+    // socket.on("bannerUpdate", (data) => {
+    //   console.log("Banner update received:", data);
+    //   setBannerData(data);
+    //   visibleBannerData(data);
+    // });
+    // return () => {
+    //   socket.off("bannerUpdate");
+    // };
+    fetchData();
+  }, []);
 
-  // console.log(bannerData, "bannerData");
-  // console.log(filterBannerData, "filterBannerData");
+  console.log(bannerData, "bannerData");
+  console.log(filterBannerData, "filterBannerData");
 
   return (
     <Container>

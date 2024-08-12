@@ -7,7 +7,7 @@ const router = express.Router();
 //Get banner data
 router.get('/', async (req, res) => {
     try {
-        const banners = await Banner.findAll();
+        const banners = await Banner.find();
         return res.status(200).json(banners);
     } catch (err) {
         console.error("No Banner data available!", err);
@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 //Get banner data by id
 router.get('/:id', async (req, res) => {
     try {
-        const banner = await Banner.findByPk(req.params.id);
+        const banner = await Banner.findById(req.params.id);
         if (!banner) {
             return res.status(404).json({ message: "Banner not found" });
         }
@@ -33,9 +33,10 @@ router.get('/:id', async (req, res) => {
 router.post('/create', async (req, res) => {
     const { title, description, timer, link, isVisible } = req.body;
     try {
-        const newBanner = await Banner.create({ title, description, timer, link, isVisible });
+        const newBanner = new Banner({ title, description, timer, link, isVisible });
+        await newBanner.save();
 
-        broadcastBannerUpdate(newBanner);
+        // broadcastBannerUpdate(newBanner);
 
         return res.status(201).json({ message: "Banner created successfully", banner: newBanner });
     } catch (err) {
@@ -49,21 +50,20 @@ router.put('/update/:id', async (req, res) => {
     const bannerID = req.params.id;
     const { title, description, timer, link, isVisible } = req.body;
     try {
-        const [updated] = await Banner.update(
+        const updatedBanner = await Banner.findByIdAndUpdate(
+            bannerID,
             { title, description, timer, link, isVisible },
-            { where: { id: bannerID } },
+            { new: true }
         );
-        if (!updated) {
+        if (!updatedBanner) {
             return res.status(404).json({ message: "Banner not found" });
         }
 
-        const updatedBanner = await Banner.findByPk(bannerID);
-
-        broadcastBannerUpdate(updatedBanner);
+        // broadcastBannerUpdate(updatedBanner);
 
         return res.status(200).json({ message: "Banner updated successfully", banner: updatedBanner });
     } catch (error) {
-        console.log("Failed to update Banner data", error);
+        console.error("Failed to update Banner data", error);
         return res.status(500).json({ message: "Internal server error" });
     }
 });
@@ -71,12 +71,12 @@ router.put('/update/:id', async (req, res) => {
 //Delete banner data
 router.delete('/delete/:id', async (req, res) => {
     try {
-        const deletedBanner = await Banner.destroy({ where: { id: req.params.id } });
+        const deletedBanner = await Banner.findByIdAndDelete(req.params.id);
         if (!deletedBanner) {
             return res.status(404).json({ message: "Banner not found" });
         }
 
-        broadcastBannerUpdate({ id: req.params.id });
+        // broadcastBannerUpdate({ id: req.params.id });
 
         return res.status(200).json({ message: "Banner deleted successfully" });
     } catch (err) {

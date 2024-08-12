@@ -9,10 +9,11 @@ import {
   Typography,
   Divider,
   Grid,
+  Alert,
 } from "@mui/material";
 
 const Dashboard = () => {
-  const [bannerData, setBannerData] = useState([]);
+  const [bannerData, setBannerData] = useState([{}]);
 
   const fetchData = async () => {
     const { data } = await axios.get(
@@ -27,24 +28,25 @@ const Dashboard = () => {
 
   const handleUpdate = async (e) => {
     try {
-      if (bannerData) {
-        await axios.put(
+      if (!bannerData) {
+        const response = await axios.put(
           `${process.env.REACT_APP_BASE_URL}/banner/update/${bannerID}`,
           bannerData
         );
       } else {
-        await axios.post(
+        const response = await axios.post(
           `${process.env.REACT_APP_BASE_URL}/banner/create`,
           bannerData
         );
       }
       fetchData();
+      <Alert>Banner created successfully.</Alert>;
     } catch (error) {
       console.error("Failed to update/create banner:", error);
     }
   };
 
-  console.log(bannerData, "bannerData");
+  // console.log(bannerData, "bannerData");
 
   const [bannerID, setBannerID] = useState(null);
   const handleBannerClick = (id) => {

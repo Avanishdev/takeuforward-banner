@@ -2,7 +2,11 @@ const { Server } = require("socket.io");
 let io;
 
 const initSocketServer = (server) => {
-    io = new Server(server);
+    io = new Server(server, {
+        cors: {
+            methods: ["GET", "POST"]
+        }
+    });
     console.log("Socket.IO server initialized");
 
     io.on('error', (err) => {

@@ -1,31 +1,25 @@
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('../config/database');
+const mongoose = require('mongoose');
 
-const Banner = sequelize.define('Banner', {
+const bannerSchema = new mongoose.Schema({
     title: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: String,
+        required: true,
     },
     description: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: String,
     },
-    timer: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+    imageUrl: {
+        type: String,
     },
-    link: {
-        type: DataTypes.STRING,
-        allowNull: true,
-        defaultValue: null
+    startDate: {
+        type: Date,
+        default: Date.now,
     },
-    isVisible: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true
-    }
-}, {
-    tableName: 'banners',
-    timestamps: true,
+    endDate: {
+        type: Date,
+    },
 });
+
+const Banner = mongoose.model('Banner', bannerSchema);
 
 module.exports = Banner;

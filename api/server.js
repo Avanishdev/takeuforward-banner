@@ -10,8 +10,8 @@ const { initSocketServer } = require('./utils/socketServer');
 
 dotenv.config();
 const app = express();
-const server = http.createServer(app);
-initSocketServer(server)
+// const server = http.createServer(app);
+// initSocketServer(server)
 
 const corsOptions = {
     origin: "*",
@@ -27,7 +27,7 @@ const apiLimiter = rateLimit({
     headers: true,
 });
 
-// app.use('/api/', apiLimiter);
+app.use('/api/', apiLimiter);
 
 app.use(express.json());
 app.use('/api/v1/banner', bannerRoutes);
@@ -39,12 +39,12 @@ app.use('/api/v1/banner', bannerRoutes);
 // };
 
 
-// connectDb().then(async () => {
-//     await sequelize.sync();
-// });
-
-app.listen(8080, () => {
-    console.log(`Server is running on port ${process.env.PORT || 8080}`);
+connectDb().then(async () => {
+    app.listen(8080, () => {
+        console.log(`Server is running on port ${process.env.PORT || 8080}`);
+    });
 });
+
+
 
 module.exports = { app };
