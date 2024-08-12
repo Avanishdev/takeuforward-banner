@@ -7,6 +7,7 @@ const rateLimit = require("express-rate-limit");
 const socketIO = require('socket.io');
 const http = require("http");
 const { initSocketServer } = require('./utils/socketServer');
+const path = require("path");
 
 dotenv.config();
 const app = express();
