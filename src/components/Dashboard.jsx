@@ -39,8 +39,8 @@ const Dashboard = () => {
           bannerData
         );
       }
-      fetchData();
       alert("Banner created/updated successfully.");
+      fetchData();
     } catch (error) {
       console.error("Failed to update/create banner:", error);
     }
