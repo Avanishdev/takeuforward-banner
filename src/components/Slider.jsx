@@ -123,7 +123,7 @@ const Slider = () => {
       </Arrow>
       {filterBannerData ? (
         <Wrapper slideIndex={slideIndex}>
-          {bannerData?.length > 0 &&
+          {filterBannerData?.length > 0 &&
             filterBannerData?.map((banner) => {
               return (
                 banner?.isVisible && (
