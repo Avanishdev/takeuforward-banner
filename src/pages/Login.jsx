@@ -25,6 +25,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateCredentials({ username, password })) {
+      alert("Login successful!");
       navigate("/dashboard");
     } else {
       alert("Something went wrong!!");
