@@ -40,7 +40,7 @@ const Dashboard = () => {
         );
       }
       fetchData();
-      <Alert>Banner created successfully.</Alert>;
+      alert("Banner created/updated successfully.");
     } catch (error) {
       console.error("Failed to update/create banner:", error);
     }

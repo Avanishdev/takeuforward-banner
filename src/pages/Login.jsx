@@ -27,7 +27,7 @@ const Login = () => {
     if (validateCredentials({ username, password })) {
       navigate("/dashboard");
     } else {
-      <Alert>Something went wrong!!</Alert>;
+      alert("Something went wrong!!");
     }
   };
 
